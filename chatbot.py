@@ -1,12 +1,15 @@
-import google.generativeai as genai
+# import google.generativeai as genai
+from google import genai
 import os
 
 # Set up your API key
-API_KEY = 'AIzaSyBrTylD5N59mzpntc79g2qdDVX5QeWkyp4'  # Ensure the API_KEY environment variable is set
-genai.configure(api_key=API_KEY)
+API_KEY = 'AIzaSyAgfFo30Kp5YvO5qQ-hzzvkKv_1F9_0uIE'  # Ensure the API_KEY environment variable is set
+# genai.configure(api_key=API_KEY)
 
-# Initialize the Generative Model
-model = genai.GenerativeModel("gemini-1.5-flash")  # Use the correct model
+# # Initialize the Generative Model
+# model = genai.GenerativeModel("gemini-2.0-flash")  # Use the correct model
+
+client = genai.Client(api_key=API_KEY)
 
 # Define the RAG prompt
 RAG_PROMPT = ('''Prompt: You are an AI agent for Firstcheque, a website dedicated to connecting freelancers with potential clients. Your primary role is to provide valuable, actionable, and friendly responses to user inquiries, whether they are freelancers seeking job opportunities or clients looking to hire talent.
@@ -38,7 +41,9 @@ def get_gemini_response(user_message):
         prompt = f"{RAG_PROMPT} {user_message}"
         
         # Use the model to generate a response
-        response = model.generate_content(prompt)  # Adjust based on actual method
+        # response = model.generate_content(prompt)  # Adjust based on actual method
+        response = client.models.generate_content(model="gemini-2.0-flash", contents=[prompt])
+        print(response.text)
         return response.text  # Adjust based on actual response structure
     except Exception as e:
         return f"Error communicating with Gemini AI: {e}"
