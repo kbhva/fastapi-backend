@@ -6,9 +6,18 @@ from chatbot import get_gemini_response  # Import the chatbot function
 # Initialize the FastAPI application
 app = FastAPI()
 
+import os
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.getenv("PORT", 8080))  # Default to 8080 if PORT is not set
+    uvicorn.run(app, host="0.0.0.0", port=port)
+
 origins = [
     "http://localhost:3000",
+    "https://firstcheque.vercel.app",
+   "https://firstcheque-chatbot.onrender.com"
 ]
+
 
 app.add_middleware(
     CORSMiddleware,
